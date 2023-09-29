@@ -1,12 +1,11 @@
 Package: rankchoiceR
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Experimental package for estimating Thurstonian models for ranked-choice data.
 Version: 1.0
 Date: 2023-09-28
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package
-      does as one or more full sentences.
+Author: Timothy R. Johnson
+Maintainer: Timothy R. Johnson <trjohns@uidaho.edu>
+Description: R interfaces for C++ functions for estimating Thurstonian and related models for ranked-choice data.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.11)
-LinkingTo: Rcpp, RcppArmadillo, roptim, RcppDist
+Imports: Rcpp (>= 1.0.11), RcppArmadillo (>= 0.12.6.4.0), RcppDist (>= 0.1.1), roptim (>= 0.1.6)
+LinkingTo: Rcpp, RcppArmadillo, RcppDist, roptim
