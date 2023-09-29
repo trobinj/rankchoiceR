@@ -7,5 +7,7 @@ Author: Timothy R. Johnson
 Maintainer: Timothy R. Johnson <trjohns@uidaho.edu>
 Description: R interfaces for C++ functions for estimating Thurstonian and related models for ranked-choice data.
 License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
 Imports: 
 LinkingTo: Rcpp, RcppArmadillo, RcppDist, roptim
