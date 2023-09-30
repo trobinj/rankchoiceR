@@ -258,7 +258,8 @@ public:
 
   void xstep()
   {
-    double d = scale / sigm(0,0);
+  	double d = scale / sigm(k - 1, k - 1);
+
     sigm = sigm * d;
     beta = beta * sqrt(d);
   }
@@ -286,7 +287,7 @@ dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale,
   	
     data.estep();
     data.mstep();
-    data.xstep();
+		data.xstep();
 
     out.row(i) = data.getparameters().t();
     
