@@ -199,27 +199,36 @@ public:
 };
 
 // [[Rcpp::export]]
-dmat mvprobit(umat y, dmat x, int m, int n, int t, int ncores)
+dmat mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, bool print)
 {
   int k = y.n_cols;
 	int p = x.n_cols;
   int q = k * (k + 1) / 2; 
+  
+  int m0 = m(0);
+  int mf = m(1);
+  int n0 = n(0);
+  int nf = n(1);
 
-  dmat out(n, k*p + q);
+  dmat out(n0 + nf, k*p + q);
   
   bindata data(y, x, ncores);
   
-  data.setsize(m, t);
+  data.setsize(m0, t);
   
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < n0 + nf; ++i) {
   	
     data.estep();
     data.mstep();
     data.rstep();
 
     out.row(i) = data.getparameters().t();
+    
+    if ((i + 1) == n0 + 1) {
+    	data.setsize(mf, t);
+    }
 
-    if ((i + 1) % 10 == 0) {
+    if ((i + 1) % 10 == 0 && print) {
       Rcpp::Rcout << "iteration: " << i + 1 << "\n";
     	
     	dmat bhat;

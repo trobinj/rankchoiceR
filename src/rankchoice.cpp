@@ -265,7 +265,7 @@ public:
 };
 
 // [[Rcpp::export]]
-dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale)
+dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, bool print)
 {
   int k = y.n_cols;
 	int p = x.n_cols;
@@ -294,7 +294,7 @@ dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale)
       data.setsize(mf, t);
     }
 
-    if ((i + 1) % 10 == 0) {
+    if ((i + 1) % 10 == 0 && print) {
       dump<int>(i + 1, "iteration: ");
 
       dmat bhat, shat;
