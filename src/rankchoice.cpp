@@ -258,7 +258,7 @@ public:
 
   void xstep()
   {
-  	double d = scale / sigm(k - 1, k - 1);
+  	double d = scale / sigm(0,0);
 
     sigm = sigm * d;
     beta = beta * sqrt(d);
