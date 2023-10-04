@@ -18,6 +18,9 @@ rvec rmvnorm(dvec m, dmat s)
 
 dmat cov2cor(dmat x) 
 {
+	if (!x.is_symmetric()) {
+		Rcpp::stop("matrix not symmetric");
+	}
 	dmat d = sqrt(inv(diagmat(x)));
 	return d * x * d;
 }

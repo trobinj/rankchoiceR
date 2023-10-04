@@ -9,6 +9,10 @@ rankchoice <- function(y, x, m, n, t, ncores, scale, print) {
     .Call(`_rankchoiceR_rankchoice`, y, x, m, n, t, ncores, scale, print)
 }
 
+rankchoicefull <- function(y, x, r, m, n, t, ncores, scale, print) {
+    .Call(`_rankchoiceR_rankchoicefull`, y, x, r, m, n, t, ncores, scale, print)
+}
+
 ranktop <- function(y, x, m, n, t, ncores, scale, print) {
     .Call(`_rankchoiceR_ranktop`, y, x, m, n, t, ncores, scale, print)
 }

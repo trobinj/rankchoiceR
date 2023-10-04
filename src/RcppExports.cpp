@@ -47,6 +47,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rankchoicefull
+dmat rankchoicefull(umat y, dmat x, uvec r, uvec m, uvec n, int t, int ncores, double scale, bool print);
+RcppExport SEXP _rankchoiceR_rankchoicefull(SEXP ySEXP, SEXP xSEXP, SEXP rSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP printSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< umat >::type y(ySEXP);
+    Rcpp::traits::input_parameter< dmat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< uvec >::type r(rSEXP);
+    Rcpp::traits::input_parameter< uvec >::type m(mSEXP);
+    Rcpp::traits::input_parameter< uvec >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type t(tSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    Rcpp::traits::input_parameter< bool >::type print(printSEXP);
+    rcpp_result_gen = Rcpp::wrap(rankchoicefull(y, x, r, m, n, t, ncores, scale, print));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ranktop
 dmat ranktop(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, bool print);
 RcppExport SEXP _rankchoiceR_ranktop(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP printSEXP) {
@@ -69,6 +88,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_rankchoiceR_mvprobit", (DL_FUNC) &_rankchoiceR_mvprobit, 7},
     {"_rankchoiceR_rankchoice", (DL_FUNC) &_rankchoiceR_rankchoice, 8},
+    {"_rankchoiceR_rankchoicefull", (DL_FUNC) &_rankchoiceR_rankchoicefull, 9},
     {"_rankchoiceR_ranktop", (DL_FUNC) &_rankchoiceR_ranktop, 8},
     {NULL, NULL, 0}
 };

@@ -284,16 +284,16 @@ dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale,
   data.setsize(m0, t);
   
   for (int i = 0; i < n0 + nf; ++i) {
-  	
+
+    if ((i + 1) == n0 + 1) {
+      data.setsize(mf, t);
+    }
+
     data.estep();
     data.mstep();
 		data.xstep();
 
     out.row(i) = data.getparameters().t();
-    
-    if ((i + 1) == n0 + 1) {
-      data.setsize(mf, t);
-    }
 
     if ((i + 1) % 10 == 0 && print) {
       dump<int>(i + 1, "iteration: ");
@@ -303,7 +303,6 @@ dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale,
 
       dump<dmat>(bhat, "beta: \n");
     	dump<dmat>(shat, "sigm: \n");
-      dump<dmat>(cov2cor(shat), "corr: \n");
     }   
 
     Rcpp::checkUserInterrupt();
