@@ -5,6 +5,11 @@
 #include <mvnorm.h>
 #include "rankchoiceR_types.h"
 
+dmat diagonalize(dmat x, int k)
+{
+	return diagmat(diagvec(x, k), k);
+}
+
 dmat cmatrix(int k) 
 {
 	using namespace arma;

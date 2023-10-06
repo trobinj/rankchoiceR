@@ -43,7 +43,7 @@ private:
   
 public:
 
-  rankchoiceblock(uvec y) : y(y)
+  rankchoiceblock(uvec y, dvec x) : y(y), x(x)
   {
     k = y.n_elem;
     q = k * (k + 1) / 2;
@@ -168,6 +168,36 @@ public:
       u.row(j) = usamp(u.row(0), udist);
     }
   }
+
+  dvec gradient(dmat beta, dmat sigm)
+  {
+    using namespace arma;
+
+    dmat R = inv(sigm);
+    dmat I = eye(k, k);
+    dvec z(k);
+    dmat betag(size(beta));
+    dmat sigmg(size(sigm));
+    dvec sigmv;
+
+    betag.fill(0.0);
+    sigmg.fill(0.0);
+
+    for (int j = 0; j < t; ++j) {
+      z = (u.row(j).t() - beta * x);
+      betag = betag + R * z * x.t();
+      sigmg = sigmg + 0.5 * (2 * R - (R * I) - 
+        2 * R * z * z.t() * R + R * z * z.t() * R * I);
+    }
+
+    betag = betag / m;
+    sigmg = sigmg / m;
+
+    sigmv = lowertri(sigmv);
+    sigmv = sigmv.tail(k * (k + 1) / 2 - 1);
+
+    return join_vert(vectorise(betag), sigmv);
+  }
 };
 
 class rankchoicedata 
@@ -202,7 +232,7 @@ public:
 
     data.reserve(n);
     for (int i = 0; i < n; ++i) {
-      data.emplace_back(y.row(i).t()); 
+      data.emplace_back(y.row(i).t(), x.row(i).t()); 
     }
   }
   
@@ -262,6 +292,15 @@ public:
 
     sigm = sigm * d;
     beta = beta * sqrt(d);
+  }
+
+  dmat vmat()
+  {
+    dmat score(n, k * p + k * (k + 1) / 2 - 1);
+    for (int i = 0; i < n; ++i) {
+      score.row(i) = data[i].gradient(beta, sigm).t();
+    }
+    return inv(score.t() * score);
   }
 };
 

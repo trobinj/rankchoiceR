@@ -5,6 +5,7 @@
 #include <mvnorm.h>
 #include "rankchoiceR_types.h"
 
+dmat diagonalize(dmat x, int k = 0);
 dmat cmatrix(int k);
 rvec rmvnorm(dvec m, dmat s);
 dmat cov2cor(dmat x);

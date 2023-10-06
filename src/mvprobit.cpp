@@ -35,7 +35,7 @@ private:
 
 public:
 
-  binblock(uvec y) : y(y)
+  binblock(uvec y, dvec x) : y(y), x(x)
   {
     k = y.n_elem;
     q = k * (k + 1) / 2;
@@ -95,6 +95,32 @@ public:
       u.row(j) = usamp(u.row(0), udist);
     }
   }
+
+  dvec gradient(dmat beta, dmat sigm)
+  {
+    using namespace arma;
+
+    dmat R = inv(sigm);
+    dmat I = eye(k, k);
+    dvec z(k);
+    dmat betag(size(beta));
+    dmat sigmg(size(sigm));
+
+    betag.fill(0.0);
+    sigmg.fill(0.0); 
+
+    for (int j = 0; j < t; ++j) {
+      z = (u.row(j).t() - beta * x);
+      betag = betag + R * z * x.t();
+      sigmg = sigmg + 0.5 * (2 * R - (R * I) - 
+        2 * R * z * z.t() * R + R * z * z.t() * R * I);
+    }
+
+    betag = betag / m;
+    sigmg = sigmg / m;
+
+    return join_vert(vectorise(betag), lowertri(sigmg, false));
+  }
 };
 
 class bindata 
@@ -127,7 +153,7 @@ public:
 
     data.reserve(n);
     for (int i = 0; i < n; ++i) {
-      data.emplace_back(y.row(i).t()); 
+      data.emplace_back(y.row(i).t(), x.row(i).t()); 
     }
   }
 
@@ -189,12 +215,21 @@ public:
     sigm = (euu - beta * xx * beta.t()) / n;
   }
 
-  void rstep()
+  void xstep()
   {
     dmat D = sqrt(inv(diagmat(sigm)));
   	
   	beta = D * beta;
     sigm = D * sigm * D.t(); 
+  }
+
+  dmat vmat()
+  {
+    dmat score(n, k * p + k * (k - 1) / 2);
+    for (int i = 0; i < n; ++i) {
+      score.row(i) = data[i].gradient(beta, sigm).t();
+    }
+    return inv(score.t() * score);
   }
 };
 
@@ -224,7 +259,7 @@ dmat mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, bool print)
 
     data.estep();
     data.mstep();
-    data.rstep();
+    data.xstep();
 
     out.row(i) = data.getparameters().t();
     

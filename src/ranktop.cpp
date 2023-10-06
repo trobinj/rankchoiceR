@@ -90,7 +90,7 @@ private:
   dmat u;
   dvec eta;
   dmat sigm;
-  int k, q, m, t, r;
+  int k, p, q, m, t, r;
 
   ivec lowindx;
   ivec uppindx;
@@ -99,9 +99,10 @@ private:
 
 public:
 
-  ranktopblock(uvec y) : y(y)
+  ranktopblock(uvec y, dvec x) : y(y), x(x)
   {
     k = y.n_elem;
+    p = x.n_elem;
     q = k * (k + 1) / 2;
     r = max(y);
     
@@ -225,6 +226,40 @@ public:
       u.row(j) = usamp(u.row(0), udist);
     }
   }
+
+  dvec gradient(dmat beta, dmat sigm)
+  {
+    using namespace arma;
+
+    dmat R = inv(sigm);
+    dmat I = eye(k, k);
+    dvec z(k);
+    dmat betag(size(beta));
+    dmat sigmg(size(sigm));
+    dvec sigmv;
+
+    betag.fill(0.0);
+    sigmg.fill(0.0);
+
+    for (int j = 0; j < t; ++j) {
+      z = (u.row(j).t() - beta * x);
+      betag = betag + R * z * x.t();
+      sigmg = sigmg + 0.5 * (2 * R - (R * I) - 
+        2 * R * z * z.t() * R + R * z * z.t() * R * I);
+    }
+
+    betag = betag / m;
+    sigmg = sigmg / m;
+
+    betag.shed_row(k - 1);
+    sigmg.shed_row(k - 1);
+    sigmg.shed_col(k - 1);
+
+    sigmv = lowertri(sigmg);
+    sigmv = sigmv.tail(k * (k - 1) / 2 - 1);
+
+    return join_vert(vectorise(betag), sigmv);
+  }
 };
 
 class ranktopdata 
@@ -259,7 +294,7 @@ public:
 
     data.reserve(n);
     for (int i = 0; i < n; ++i) {
-      data.emplace_back(y.row(i).t()); 
+      data.emplace_back(y.row(i).t(), x.row(i).t()); 
     }
   }
 
@@ -328,6 +363,15 @@ public:
     Rstop(opt.value() > 1e-5, "parameter reduction error");
 
     data.setparameters(opt.par(), beta, sigm);
+  }
+
+  dmat vmat()
+  {
+    dmat score(n, p * (k - 1) + (k - 1) * k / 2 - 1);
+    for (int i = 0; i < n; ++i) {
+      score.row(i) = data[i].gradient(beta, sigm).t();
+    }
+    return inv(score.t() * score);
   }
 };
 
