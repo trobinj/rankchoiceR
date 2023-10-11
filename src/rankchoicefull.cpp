@@ -93,7 +93,8 @@ public:
   rvec usamp(rvec u, cnorm& udist)
   {
     double low, upp;
-    double mj, sj, yj;
+    double mj, sj;
+    int yj;
 
     for (int i = 0; i < t; ++i) {
       for (int j = 0; j < k; ++j) {
@@ -143,9 +144,9 @@ public:
     return u;
   }
 
-  dvec getux()
+  dmat getux()
   {
-    return mean(u, 0).t();  
+    return mean(u, 0).t() * x.t();
   }
 
   dmat getuu()

@@ -17,3 +17,7 @@ ranktop <- function(y, x, m, n, t, ncores, scale, print) {
     .Call(`_rankchoiceR_ranktop`, y, x, m, n, t, ncores, scale, print)
 }
 
+tinker <- function(ncores) {
+    invisible(.Call(`_rankchoiceR_tinker`, ncores))
+}
+

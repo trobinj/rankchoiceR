@@ -15,7 +15,7 @@ dmat cmatrix(int k)
 	using namespace arma;
 	return join_rows(eye(k - 1, k - 1), -ones(k - 1, 1));
 }
-
+ 
 rvec rmvnorm(dvec m, dmat s)
 {
 	return rmvnorm(1, m, s);

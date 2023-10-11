@@ -152,9 +152,9 @@ public:
     return u;
   }
 
-  dvec getux()
+  dmat getux()
   {
-    return mean(u, 0).t();  
+    return mean(u, 0).t() * x.t();  
   }
 
   dmat getuu()

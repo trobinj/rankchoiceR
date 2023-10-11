@@ -84,12 +84,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tinker
+void tinker(int ncores);
+RcppExport SEXP _rankchoiceR_tinker(SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    tinker(ncores);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rankchoiceR_mvprobit", (DL_FUNC) &_rankchoiceR_mvprobit, 7},
     {"_rankchoiceR_rankchoice", (DL_FUNC) &_rankchoiceR_rankchoice, 8},
     {"_rankchoiceR_rankchoicefull", (DL_FUNC) &_rankchoiceR_rankchoicefull, 9},
     {"_rankchoiceR_ranktop", (DL_FUNC) &_rankchoiceR_ranktop, 8},
+    {"_rankchoiceR_tinker", (DL_FUNC) &_rankchoiceR_tinker, 1},
     {NULL, NULL, 0}
 };
 
