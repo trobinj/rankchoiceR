@@ -13,8 +13,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // mvprobit
-dmat mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, bool print);
-RcppExport SEXP _rankchoiceR_mvprobit(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP printSEXP) {
+Rcpp::List mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, int h, bool print);
+RcppExport SEXP _rankchoiceR_mvprobit(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP hSEXP, SEXP printSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,14 +24,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< uvec >::type n(nSEXP);
     Rcpp::traits::input_parameter< int >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< bool >::type print(printSEXP);
-    rcpp_result_gen = Rcpp::wrap(mvprobit(y, x, m, n, t, ncores, print));
+    rcpp_result_gen = Rcpp::wrap(mvprobit(y, x, m, n, t, ncores, h, print));
     return rcpp_result_gen;
 END_RCPP
 }
 // rankchoice
-dmat rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, bool print);
-RcppExport SEXP _rankchoiceR_rankchoice(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP printSEXP) {
+Rcpp::List rankchoice(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, int h, bool print);
+RcppExport SEXP _rankchoiceR_rankchoice(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP hSEXP, SEXP printSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,14 +43,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
     Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< bool >::type print(printSEXP);
-    rcpp_result_gen = Rcpp::wrap(rankchoice(y, x, m, n, t, ncores, scale, print));
+    rcpp_result_gen = Rcpp::wrap(rankchoice(y, x, m, n, t, ncores, scale, h, print));
     return rcpp_result_gen;
 END_RCPP
 }
 // rankchoicefull
-dmat rankchoicefull(umat y, dmat x, uvec r, uvec m, uvec n, int t, int ncores, double scale, bool print);
-RcppExport SEXP _rankchoiceR_rankchoicefull(SEXP ySEXP, SEXP xSEXP, SEXP rSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP printSEXP) {
+Rcpp::List rankchoicefull(umat y, dmat x, uvec r, uvec m, uvec n, int t, int ncores, double scale, int h, bool print);
+RcppExport SEXP _rankchoiceR_rankchoicefull(SEXP ySEXP, SEXP xSEXP, SEXP rSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP hSEXP, SEXP printSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -61,14 +63,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
     Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< bool >::type print(printSEXP);
-    rcpp_result_gen = Rcpp::wrap(rankchoicefull(y, x, r, m, n, t, ncores, scale, print));
+    rcpp_result_gen = Rcpp::wrap(rankchoicefull(y, x, r, m, n, t, ncores, scale, h, print));
     return rcpp_result_gen;
 END_RCPP
 }
 // ranktop
-dmat ranktop(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, bool print);
-RcppExport SEXP _rankchoiceR_ranktop(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP printSEXP) {
+Rcpp::List ranktop(umat y, dmat x, uvec m, uvec n, int t, int ncores, double scale, int h, bool print);
+RcppExport SEXP _rankchoiceR_ranktop(SEXP ySEXP, SEXP xSEXP, SEXP mSEXP, SEXP nSEXP, SEXP tSEXP, SEXP ncoresSEXP, SEXP scaleSEXP, SEXP hSEXP, SEXP printSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,8 +82,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type t(tSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
     Rcpp::traits::input_parameter< double >::type scale(scaleSEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
     Rcpp::traits::input_parameter< bool >::type print(printSEXP);
-    rcpp_result_gen = Rcpp::wrap(ranktop(y, x, m, n, t, ncores, scale, print));
+    rcpp_result_gen = Rcpp::wrap(ranktop(y, x, m, n, t, ncores, scale, h, print));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -96,10 +100,10 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rankchoiceR_mvprobit", (DL_FUNC) &_rankchoiceR_mvprobit, 7},
-    {"_rankchoiceR_rankchoice", (DL_FUNC) &_rankchoiceR_rankchoice, 8},
-    {"_rankchoiceR_rankchoicefull", (DL_FUNC) &_rankchoiceR_rankchoicefull, 9},
-    {"_rankchoiceR_ranktop", (DL_FUNC) &_rankchoiceR_ranktop, 8},
+    {"_rankchoiceR_mvprobit", (DL_FUNC) &_rankchoiceR_mvprobit, 8},
+    {"_rankchoiceR_rankchoice", (DL_FUNC) &_rankchoiceR_rankchoice, 9},
+    {"_rankchoiceR_rankchoicefull", (DL_FUNC) &_rankchoiceR_rankchoicefull, 10},
+    {"_rankchoiceR_ranktop", (DL_FUNC) &_rankchoiceR_ranktop, 9},
     {"_rankchoiceR_tinker", (DL_FUNC) &_rankchoiceR_tinker, 1},
     {NULL, NULL, 0}
 };

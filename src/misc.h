@@ -9,7 +9,7 @@ dmat diagonalize(dmat x, int k = 0);
 dmat cmatrix(int k);
 rvec rmvnorm(dvec m, dmat s);
 dmat cov2cor(dmat x);
-dmat vec2lower(dvec x);
+dmat vec2lower(dvec x, bool upper = false);
 dmat vec2cov(dvec x);
 dvec lowertri(dmat x, bool diag = true); 
 double rnormpos(double m, double s, bool pos);

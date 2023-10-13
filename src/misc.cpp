@@ -30,7 +30,7 @@ dmat cov2cor(dmat x)
 	return d * x * d;
 }
 
-dmat vec2lower(dvec x)
+dmat vec2lower(dvec x, bool upper)
 {
 	int n = (sqrt(8 * x.n_elem + 1) - 1) / 2;
 	int t = 0;
@@ -41,12 +41,16 @@ dmat vec2lower(dvec x)
 			++t;
 		}
 	}
+	if (upper) {
+		y = symmatl(y);
+	}
+
 	return y;
 }
 
 dmat vec2cov(dvec x)
 {
-	dmat L = vec2lower(x);
+	dmat L = vec2lower(x, false);
 	return L * L.t();
 }
 

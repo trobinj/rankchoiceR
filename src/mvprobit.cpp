@@ -109,7 +109,7 @@ public:
     betag.fill(0.0);
     sigmg.fill(0.0); 
 
-    for (int j = 0; j < t; ++j) {
+    for (int j = 0; j < m; ++j) {
       z = (u.row(j).t() - beta * x);
       betag = betag + R * z * x.t();
       sigmg = sigmg + 0.5 * (2 * R - (R * I) - 
@@ -180,6 +180,13 @@ public:
 		shat = sigm;
 	}
 
+  void setparameters(dvec theta)
+  {
+    dmat temp = theta.head(k*p);
+    beta = temp.reshape(size(beta));
+    sigm = vec2lower(theta.tail(q), true);
+  }
+
   void setsize(int m, int t)
   {
     for (auto& obs : data) {
@@ -234,7 +241,7 @@ public:
 };
 
 // [[Rcpp::export]]
-dmat mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, bool print)
+Rcpp::List mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, int h, bool print)
 {
   int k = y.n_cols;
 	int p = x.n_cols;
@@ -277,5 +284,21 @@ dmat mvprobit(umat y, dmat x, uvec m, uvec n, int t, int ncores, bool print)
     Rcpp::checkUserInterrupt();
   }
 
-  return out;
+  dvec theta = mean(out.tail_rows(nf/2), 0).t();
+
+  dmat vcov;
+  if (h) {
+    data.setparameters(theta); 
+    data.setsize(h, t);
+    data.estep();
+    vcov = data.vmat();
+  } else {
+    vcov.fill(arma::datum::nan);
+  }
+
+  return Rcpp::List::create(
+    Rcpp::Named("out") = Rcpp::wrap(out),
+    Rcpp::Named("theta") = Rcpp::wrap(theta),
+    Rcpp::Named("vcov") = Rcpp::wrap(vcov)
+  );
 }
